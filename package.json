@@ -12,6 +12,14 @@
     "apple-silicon",
     "local-ai"
   ],
+  "homepage": "https://github.com/jleifeld/maclaya#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jleifeld/maclaya.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jleifeld/maclaya/issues"
+  },
   "bin": {
     "maclaya": "dist/cli.js"
   },
