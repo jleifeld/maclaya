@@ -14,7 +14,8 @@ export default tseslint.config(
     },
   },
   { files: ['src/**/*.ts', 'tests/**/*.ts', '*.{js,mjs,ts}'], languageOptions: { globals: { ...globals.node, ...globals.jest } } },
-  { files: ['jest.config.js'], rules: { '@typescript-eslint/no-require-imports': 'off' } },
+  // jest.resetModules() tests load fresh module instances with require()
+  { files: ['jest.config.js', 'tests/**/*.ts'], rules: { '@typescript-eslint/no-require-imports': 'off' } },
   {
     files: ['web/**/*.{ts,tsx}'],
     languageOptions: { globals: globals.browser },

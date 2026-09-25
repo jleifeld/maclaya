@@ -1,11 +1,11 @@
 import { json } from '@codemirror/lang-json';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
-import { useDarkMode } from '../hooks';
+import { useResolvedTheme } from '../theme';
 
 const extensions = [json(), EditorView.lineWrapping];
 
 export function JsonEditor({ value, onChange, readOnly, minHeight = '120px', maxHeight, label }: { value: string; onChange?: (value: string) => void; readOnly?: boolean; minHeight?: string; maxHeight?: string; label: string }) {
-  const dark = useDarkMode();
+  const dark = useResolvedTheme() === 'dark';
   return (
     <div className="overflow-hidden rounded-lg border border-line">
       <CodeMirror

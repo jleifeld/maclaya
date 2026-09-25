@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Activity, FlaskConical, LayoutDashboard, ListTree } from 'lucide-react';
+import { Activity, FlaskConical, LayoutDashboard, ListTree, Monitor, Moon, Sun } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { api, type Checkpoint, type CheckpointState } from '../api';
 import { useLiveEvents, useStatus } from '../hooks';
 import { formatUptime } from '../lib/format';
-import { Button, CopyButton, cx, StatusDot } from './ui';
+import { setThemePreference, useThemePreference, type ThemePreference } from '../theme';
+import { Button, CopyButton, cx, Segmented, StatusDot } from './ui';
 
 const NAV = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -38,6 +40,16 @@ function CheckpointRow({ checkpoint, state }: { checkpoint: Checkpoint; state: C
   );
 }
 
+const THEME_OPTIONS: { value: ThemePreference; label: ReactNode; title: string }[] = [
+  { value: 'system', label: <Monitor size={14} aria-hidden />, title: 'Match system appearance' },
+  { value: 'light', label: <Sun size={14} aria-hidden />, title: 'Light mode' },
+  { value: 'dark', label: <Moon size={14} aria-hidden />, title: 'Dark mode' },
+];
+
+function ThemeSwitch() {
+  return <Segmented size="sm" label="Appearance" value={useThemePreference()} options={THEME_OPTIONS} onChange={setThemePreference} />;
+}
+
 export function Layout() {
   const { data: status, isError } = useStatus();
   const live = useLiveEvents();
@@ -54,10 +66,13 @@ export function Layout() {
               <div className="text-xs text-muted">Laya on this Mac</div>
             </div>
           </div>
-          <span className="flex items-center gap-1.5 text-xs text-ink-2 md:mt-4" title="Live updates from the server">
-            <StatusDot tone={isError || live === 'offline' ? 'critical' : live === 'live' ? 'good' : 'warning'} />
-            {isError || live === 'offline' ? 'Server offline' : live === 'live' ? 'Live' : 'Connecting…'}
-          </span>
+          <div className="flex items-center gap-3 md:mt-4 md:justify-between">
+            <span className="flex items-center gap-1.5 text-xs text-ink-2" title="Live updates from the server">
+              <StatusDot tone={isError || live === 'offline' ? 'critical' : live === 'live' ? 'good' : 'warning'} />
+              {isError || live === 'offline' ? 'Server offline' : live === 'live' ? 'Live' : 'Connecting…'}
+            </span>
+            <ThemeSwitch />
+          </div>
         </div>
 
         <nav className="flex gap-1 overflow-x-auto px-2 pb-2 [scrollbar-width:none] md:flex-col md:px-3 md:pb-0">

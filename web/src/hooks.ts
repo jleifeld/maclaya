@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useState } from 'react';
 import { api, type RequestSummary } from './api';
 
 export function useStatus() {
@@ -37,18 +37,6 @@ export function useLiveEvents(onRequest?: (summary: RequestSummary) => void): Li
   }, [queryClient, onRequest]);
 
   return state;
-}
-
-const darkQuery = typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)') : undefined;
-
-export function useDarkMode(): boolean {
-  return useSyncExternalStore(
-    (notify) => {
-      darkQuery?.addEventListener('change', notify);
-      return () => darkQuery?.removeEventListener('change', notify);
-    },
-    () => darkQuery?.matches ?? false,
-  );
 }
 
 export function usePersistentState<T>(key: string, initial: T): [T, (value: T) => void] {

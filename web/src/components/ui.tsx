@@ -69,7 +69,7 @@ export function Label({ children, hint }: { children: ReactNode; hint?: ReactNod
   );
 }
 
-export function Segmented<T extends string>({ value, options, onChange, label, size = 'md' }: { value: T; options: { value: T; label: ReactNode }[]; onChange: (value: T) => void; label: string; size?: 'sm' | 'md' }) {
+export function Segmented<T extends string>({ value, options, onChange, label, size = 'md' }: { value: T; options: { value: T; label: ReactNode; title?: string }[]; onChange: (value: T) => void; label: string; size?: 'sm' | 'md' }) {
   return (
     <div role="radiogroup" aria-label={label} className="inline-flex rounded-lg border border-line bg-surface-2 p-0.5">
       {options.map((option) => (
@@ -78,6 +78,8 @@ export function Segmented<T extends string>({ value, options, onChange, label, s
           type="button"
           role="radio"
           aria-checked={value === option.value}
+          aria-label={option.title}
+          title={option.title}
           onClick={() => onChange(option.value)}
           className={cx(
             'rounded-md font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent',
