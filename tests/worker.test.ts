@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { EngineError, WorkerClient, type ModelEvent } from '../src/runtime/worker';
 import { stubEnv, systemPython, WORKER_SCRIPT } from './helpers/stub-python';
 
@@ -27,6 +28,23 @@ describe('WorkerClient with the Python worker', () => {
       checkpoints: { english: 'aac6fef/laya-mlx', multilingual: 'aac6fef/laya-multilingual-mlx' },
     });
     expect(stderr.join('')).toContain('stub router init');
+  });
+
+  it('runs the worker in its own process group so terminal Ctrl+C only reaches maclaya', async () => {
+    worker = stubWorker();
+    await worker.start();
+    const pgid = (pid: number) => execFileSync('ps', ['-o', 'pgid=', '-p', String(pid)]).toString().trim();
+    expect(worker.info!.pid).toEqual(expect.any(Number));
+    expect(pgid(worker.info!.pid)).toBe(String(worker.info!.pid));
+    expect(pgid(worker.info!.pid)).not.toBe(pgid(process.pid));
+  });
+
+  it('ignores SIGINT and keeps answering', async () => {
+    worker = stubWorker();
+    await worker.start();
+    process.kill(worker.info!.pid, 'SIGINT');
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await expect(worker.presets()).resolves.toHaveProperty('triage');
   });
 
   it('routes predictions and emits model lifecycle events once per checkpoint', async () => {

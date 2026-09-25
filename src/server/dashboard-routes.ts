@@ -1,3 +1,4 @@
+import type { ServerResponse } from 'node:http';
 import type { FastifyInstance } from 'fastify';
 import { CHECKPOINTS, MODEL_CARDS, type Checkpoint } from '../jev/models';
 import type { Engine, ModelEvent } from '../runtime/worker';
@@ -33,6 +34,12 @@ function parseBody(text: string | null): unknown {
 
 export async function dashboardRoutes(app: FastifyInstance, options: DashboardRoutesOptions): Promise<void> {
   const { engine, stats, events } = options;
+  const streams = new Set<ServerResponse>();
+
+  // Hijacked SSE responses are invisible to Fastify, so close() would wait for them forever.
+  app.addHook('preClose', async () => {
+    for (const res of streams) res.end();
+  });
 
   app.get('/status', async (request) => {
     const states = engine.modelStates();
@@ -107,6 +114,7 @@ export async function dashboardRoutes(app: FastifyInstance, options: DashboardRo
   app.get('/events', (request, reply) => {
     reply.hijack();
     const res = reply.raw;
+    streams.add(res);
     res.writeHead(200, {
       'content-type': 'text/event-stream',
       'cache-control': 'no-cache, no-transform',
@@ -121,6 +129,7 @@ export async function dashboardRoutes(app: FastifyInstance, options: DashboardRo
     send('hello', { version: options.version });
     const heartbeat = setInterval(() => res.write(': ping\n\n'), 15_000);
     request.raw.on('close', () => {
+      streams.delete(res);
       clearInterval(heartbeat);
       events.off('request', onRequest);
       events.off('model', onModel);

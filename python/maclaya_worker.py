@@ -7,12 +7,17 @@ protocol messages; everything else (library prints, warnings, download progress)
 import json
 import os
 import platform
+import signal
 import sys
 import time
 import traceback
 
 PROTOCOL = sys.stdout
 sys.stdout = sys.stderr
+
+# The gateway owns the worker's lifetime and stops it by closing stdin; a stray Ctrl+C must not
+# kill it halfway through a request.
+signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 CHECKPOINTS = {
     "english": os.environ.get("MACLAYA_REPO_ENGLISH", "aac6fef/laya-mlx"),
@@ -63,6 +68,7 @@ class Worker:
         info = {
             "laya_mlx": getattr(self.laya, "__version__", None),
             "python": platform.python_version(),
+            "pid": os.getpid(),
             "checkpoints": CHECKPOINTS,
         }
         try:

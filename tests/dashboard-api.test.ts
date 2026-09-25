@@ -183,6 +183,16 @@ describe('dashboard API', () => {
     expect(JSON.parse(model)).toEqual({ model: 'typed-decisions', state: 'loaded', seconds: 0.1 });
   });
 
+  it('closes open event streams when the server shuts down', async () => {
+    t = await startTestServer();
+    const res = await fetch(`${t.baseURL}/api/events`);
+    const reader = res.body!.getReader();
+    await reader.read();
+    const closed = t.server.app.close().then(() => 'closed');
+    await expect(Promise.race([closed, new Promise((r) => setTimeout(() => r('hung'), 3000))])).resolves.toBe('closed');
+    await expect(reader.read()).resolves.toMatchObject({ done: true });
+  });
+
   it('keeps the dashboard local unless exposed, while the API stays reachable', async () => {
     t = await startTestServer();
     const remote = { remoteAddress: '192.168.1.20' };

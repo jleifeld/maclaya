@@ -32,7 +32,7 @@ export function fakeAnswer(question: WorkerQuestion): WorkerAnswer {
 }
 
 export class FakeEngine extends EventEmitter implements Engine {
-  info: WorkerInfo = { laya_mlx: '0.2.0', python: '3.12.0', mlx: '0.32.2', device: 'Device(gpu, 0)', metal: true, checkpoints: {} };
+  info: WorkerInfo = { laya_mlx: '0.2.0', python: '3.12.0', mlx: '0.32.2', device: 'Device(gpu, 0)', metal: true, checkpoints: {}, pid: 4242 };
   calls: PredictInput[] = [];
   loads: Checkpoint[][] = [];
   failWith?: EngineError;

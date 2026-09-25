@@ -32,6 +32,7 @@ export interface WorkerInfo {
   metal?: boolean;
   mlx_error?: string;
   checkpoints: Record<string, string>;
+  pid: number;
 }
 
 export type WorkerEvent =

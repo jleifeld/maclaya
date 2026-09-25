@@ -89,6 +89,9 @@ export class WorkerClient extends EventEmitter implements Engine {
     const child = spawn(this.options.python, ['-u', this.options.script], {
       env: { ...process.env, PYTHONUNBUFFERED: '1', TOKENIZERS_PARALLELISM: 'false', ...this.options.env },
       stdio: ['pipe', 'pipe', 'pipe'],
+      // Own process group: Ctrl+C in the terminal must reach only maclaya, which then stops the
+      // worker itself. Otherwise the worker dies first and looks like a crash that needs a restart.
+      detached: true,
     });
     this.child = child;
     this.stderrTail = '';

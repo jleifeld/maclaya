@@ -97,10 +97,13 @@ export async function serve(options: ServeOptions): Promise<void> {
 
   let shuttingDown = false;
   const shutdown = async (signal: string) => {
-    if (shuttingDown) return;
+    if (shuttingDown) {
+      warn('Forcing exit.');
+      process.exit(130);
+    }
     shuttingDown = true;
     say();
-    info(`Received ${signal}, shutting down …`);
+    info(`Received ${signal}, shutting down … ${pc.dim('(press Ctrl+C again to force)')}`);
     clearInterval(pruneTimer);
     await app.close();
     await session.close();
