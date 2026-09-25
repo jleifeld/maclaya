@@ -28,7 +28,7 @@
     "darwin"
   ],
   "scripts": {
-    "build": "npm run build:web && npm run build:server",
+    "build": "rm -rf dist && npm run build:web && npm run build:server",
     "build:server": "tsup",
     "build:web": "vite build --config web/vite.config.ts",
     "dev:web": "vite --config web/vite.config.ts",

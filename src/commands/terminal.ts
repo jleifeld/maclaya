@@ -33,6 +33,9 @@ export async function confirm(question: string, defaultYes = true): Promise<bool
   }
 }
 
+/** Hugging Face download progress; other worker output only goes to the log unless --verbose. */
+const DOWNLOAD_PROGRESS = /Fetching \d+ files|Downloading|\d+%\|/;
+
 export interface WorkerSession {
   worker: WorkerClient;
   /** Echo worker stderr (download progress, warnings) to the terminal while `true`. */
@@ -64,7 +67,7 @@ export async function startWorker(paths: Paths, options: { echo?: boolean; verbo
     script: paths.workerScript,
     onStderr: (chunk) => {
       log.write(chunk);
-      if (echo || options.verbose) process.stderr.write(pc.dim(chunk));
+      if (options.verbose || (echo && DOWNLOAD_PROGRESS.test(chunk))) process.stderr.write(pc.dim(chunk));
     },
   });
   worker.on('restart', ({ attempt, reason }: { attempt: number; reason: string }) =>

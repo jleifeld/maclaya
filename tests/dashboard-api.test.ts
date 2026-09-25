@@ -12,7 +12,10 @@ const body = {
   },
 };
 
-async function getJson(url: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- assertions below check the shape
+type AnyJson = any;
+
+async function getJson(url: string): Promise<{ status: number; body: AnyJson }> {
   const res = await fetch(url);
   return { status: res.status, body: res.status === 204 ? undefined : await res.json() };
 }
@@ -204,6 +207,9 @@ describe('dashboard API', () => {
     }
     expect(await (await fetch(`${t.baseURL}/app.js`)).text()).toBe('console.log(1)');
     expect((await fetch(`${t.baseURL}/api/unknown`)).status).toBe(404);
+    const v1 = await fetch(`${t.baseURL}/v1/unknown`);
+    expect(v1.status).toBe(404);
+    expect(await v1.json()).toMatchObject({ error_type: 'not_found' });
   });
 
   it('explains how to build the UI when it is missing', async () => {

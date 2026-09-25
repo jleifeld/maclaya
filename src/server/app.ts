@@ -78,10 +78,15 @@ export async function buildServer(options: ServerOptions): Promise<MaclayaServer
   await app.register(async (ui) => {
     ui.addHook('onRequest', guardDashboard);
     if (hasUi) {
-      await ui.register(fastifyStatic, { root: webRoot!, wildcard: false, index: ['index.html'] });
+      await ui.register(fastifyStatic, { root: webRoot!, index: ['index.html'] });
     }
     ui.setNotFoundHandler((request, reply) => {
-      if (request.method !== 'GET') return reply.status(404).send({ message: 'not found' });
+      if (request.url.startsWith('/v1/')) {
+        return reply.status(404).send({ message: `No route for ${request.method} ${request.url}`, error_type: 'not_found' });
+      }
+      if (request.method !== 'GET' || request.url.startsWith('/api/')) {
+        return reply.status(404).send({ message: `No route for ${request.method} ${request.url}` });
+      }
       if (!hasUi) return reply.type('text/html').send(UI_MISSING);
       return reply.sendFile('index.html');
     });
