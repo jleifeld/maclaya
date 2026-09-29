@@ -1,4 +1,17 @@
-# maclaya
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.svg">
+    <img alt="maclaya: Laya typed-decision models on your Mac, behind a Jev-compatible API" src=".github/assets/banner-light.svg" width="100%">
+  </picture>
+</p>
+
+<p align="center">
+  <a href="https://github.com/jleifeld/maclaya/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/jleifeld/maclaya/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://www.npmjs.com/package/maclaya"><img alt="npm" src="https://img.shields.io/npm/v/maclaya"></a>
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
+  <img alt="Node.js 22.13 or newer" src="https://img.shields.io/badge/node-%3E%3D22.13-339933">
+  <img alt="macOS on Apple Silicon" src="https://img.shields.io/badge/macOS-Apple%20Silicon-000000?logo=apple">
+</p>
 
 Run [Laya](https://huggingface.co/convaiinnovations/laya) typed-decision models locally on your Apple Silicon Mac, behind an API that is compatible with **Jev** (TypeSafe AI's System One API). It comes with a dashboard for request statistics and a playground for trying requests.
 
@@ -189,7 +202,15 @@ npm run typecheck
 
 The regular test suite runs the real Python worker against a small stub of `laya_mlx`, so it needs `python3` but not MLX or any model downloads.
 
+## Contributing
+
+Bug reports, ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow and [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+
 ## Credits
 
 - Laya models by Convai Innovations; laya-mlx by mizorewww. Both are Apache-2.0.
 - Jev and System One are TypeSafe AI's. maclaya is not affiliated with TypeSafe AI, Convai Innovations or laya-mlx.
+
+## License
+
+[Apache-2.0](LICENSE)
