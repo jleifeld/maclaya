@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="t">
+  <title id="t">maclaya: Laya typed-decision models on your Mac, behind a Jev-compatible API</title>
+  <style>
+    .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
+  <rect x="0.5" y="0.5" width="1279" height="359" rx="24" fill="#0d0d0d" stroke="#2c2c2a"/>
+  <g transform="translate(80 76) scale(2.75)">
+    <rect width="32" height="32" rx="8" fill="#3987e5"/>
+    <path d="M9 22V10h3v9.2h6.5V22z" fill="#fff"/>
+    <circle cx="22.5" cy="11.5" r="2.5" fill="#fff"/>
+  </g>
+  <text x="192" y="147" class="sans" font-size="68" font-weight="700" letter-spacing="-1.5" fill="#ffffff">maclaya</text>
+  <text x="80" y="228" class="sans" font-size="28" font-weight="500" fill="#ffffff">Laya typed-decision models on your Mac</text>
+  <text x="80" y="270" class="sans" font-size="22" fill="#9a9892">Jev-compatible API · dashboard · playground</text>
+
+  <g transform="translate(800 64)">
+    <rect x="0.5" y="0.5" width="399" height="231" rx="16" fill="#1a1a19" stroke="#2c2c2a"/>
+    <text x="24" y="46" class="mono" font-size="18" fill="#c3c2b7">answers.team</text>
+    <rect x="296" y="24" width="80" height="30" rx="15" fill="#184f95"/>
+    <text x="336" y="45" class="sans" font-size="15" font-weight="600" text-anchor="middle" fill="#86b6ef">choice</text>
+
+    <text x="24" y="98" class="sans" font-size="18" font-weight="500" fill="#ffffff">billing</text>
+    <text x="376" y="98" class="mono" font-size="17" text-anchor="end" fill="#ffffff">0.98</text>
+    <rect x="24" y="110" width="352" height="10" rx="5" fill="#2c2c2a"/>
+    <rect x="24" y="110" width="345" height="10" rx="5" fill="#3987e5"/>
+
+    <text x="24" y="156" class="sans" font-size="18" font-weight="500" fill="#ffffff">technical</text>
+    <text x="376" y="156" class="mono" font-size="17" text-anchor="end" fill="#9a9892">0.02</text>
+    <rect x="24" y="168" width="352" height="10" rx="5" fill="#2c2c2a"/>
+    <rect x="24" y="168" width="10" height="10" rx="5" fill="#6f6d68"/>
+
+    <text x="24" y="210" class="mono" font-size="15" fill="#9a9892">laya/english · on-device</text>
+  </g>
+</svg>
