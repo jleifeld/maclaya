@@ -82,7 +82,7 @@
     "recharts": "^3.10.1",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.1"
   }
